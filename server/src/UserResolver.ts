@@ -1,3 +1,4 @@
+import { sendRefreshToken } from './sendRefreshToken';
 import { isAuth } from './isAuthMiddleware';
 import { createRefreshToken, createAccessToken } from './auth';
 import {
@@ -63,10 +64,7 @@ export class UserResolver {
       throw new Error('wrong password!');
     }
 
-    // login successful
-    res.cookie('jid', createRefreshToken(user), {
-      httpOnly: true,
-    });
+    sendRefreshToken(res, createRefreshToken(user));
 
     return {
       accessToken: createAccessToken(user),
